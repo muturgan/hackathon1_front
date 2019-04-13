@@ -1,6 +1,7 @@
 import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBView } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
+import { Select } from '../my/Select';
 
 
 class GalleryPage extends React.Component {
@@ -10,6 +11,11 @@ class GalleryPage extends React.Component {
 
     this.state = {
       images: [],
+      sortBy: 'id',
+      direction: 'asc',
+      limit: 20,
+      offset: 0,
+      loading: false,
     };
   }
 
@@ -18,7 +24,9 @@ class GalleryPage extends React.Component {
   }
 
   async fetchImages() {
-    const data = await fetch('https://tula-hackathon-2019-sakharov.cf/api/v1/images')
+    this.state.loading = true;
+
+    const data = await fetch(`https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.state.sortBy}&limit=${this.state.limit}&offset=${this.state.offset}&direction=${this.state.direction}`)
       .then((res) => res.json());
 
     this.setState({ images: data.images.map(image => ({
@@ -28,22 +36,19 @@ class GalleryPage extends React.Component {
       caption: image.name,
       thumbnailWidth: 320,
       thumbnailHeight: 320,
-    }))
-   });
+    }))});
+
+    this.state.loading = false;
   };
 
   render() {
     return (
       <MDBRow>
         <MDBCol md="12">
+          <Select />
+
           <MDBCard className="mt-5">
-  
-            <MDBView className="gradient-card-header blue darken-2">
-              <h4 className="h4-responsive text-white">
-                Regular map
-              </h4>
-            </MDBView >
-  
+
             <MDBCardBody
               className = "text-center"
               style={{ width: '100%'}}
