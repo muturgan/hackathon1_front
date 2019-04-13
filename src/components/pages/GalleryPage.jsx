@@ -2,12 +2,20 @@ import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import { Loader } from '../my/Loader';
-import { Pagination } from '../my/Pagination';
+import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
-import { loadingStart, loadingEnd, setFiltes, pushImages } from '../../store/ac';
+import { loadingStart, loadingEnd, setFiltes } from '../../store/ac';
 
 
 class GalleryPage extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      images: [],
+    };
+  }
 
   componentDidMount() {
     this.fetchImages();
@@ -23,10 +31,9 @@ class GalleryPage extends React.Component {
 
   fetchImages = async () => {
     this.props.dispatch(loadingStart());
-    console.log(`https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.props.filters.sortBy}&limit=${this.props.filters.limit}&offset=${this.props.filters.offset}&direction=${this.props.filters.direction}`);
 
     const data = await fetch(
-        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.props.filters.sortBy}&limit=${this.props.filters.limit}&offset=${this.props.filters.offset}&direction=${this.props.filters.direction}`,
+        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.props.filters.sortBy}&limit=${this.props.filters.limit}&page=${this.props.filters.currentPage}&direction=${this.props.filters.direction}`,
         {
           headers: this.props.token !== null
             ? {authorization: this.props.token}
@@ -34,16 +41,31 @@ class GalleryPage extends React.Component {
         }
       ).then((res) => res.json());
 
+    this.setState({
+      images: data.images.map(image => ({
+        src: image.path,
+        thumbnail: image.path,
+        tags: image.tags,
+        caption: image.name,
+        thumbnailWidth: 320,
+        thumbnailHeight: 320,
+      })),
+    });
+
+    this.props.dispatch(setFiltes({
+      pages: data.pages,
+    }));
+
     this.props.dispatch(loadingEnd());
 
-    this.props.dispatch(pushImages({ images: data.images.map(image => ({
-      src: image.path,
-      thumbnail: image.path,
-      tags: image.tags,
-      caption: image.name,
-      thumbnailWidth: 320,
-      thumbnailHeight: 320,
-    }))}));
+    // this.props.dispatch(pushImages({ images: data.images.map(image => ({
+    //   src: image.path,
+    //   thumbnail: image.path,
+    //   tags: image.tags,
+    //   caption: image.name,
+    //   thumbnailWidth: 320,
+    //   thumbnailHeight: 320,
+    // }))}));
   };
 
   render() {
@@ -137,10 +159,10 @@ class GalleryPage extends React.Component {
                       </div>
                     : ''
                 }
-                <Pagination pagesCount="5" currentPage="5"/>
+                <Pagination/>
 
                 <Gallery
-                  images={this.props.images.images}
+                  images={this.state.images}
                   enableImageSelection={false}
                 />
               </div>

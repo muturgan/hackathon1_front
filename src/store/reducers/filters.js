@@ -4,7 +4,8 @@ const defaultFilters = {
     sortBy: 'id',
     direction: 'asc',
     limit: 20,
-    offset: 0,
+    currentPage: 1,
+    pages: 1,
 };
 
 const reducer = (filters = defaultFilters, action) => {

@@ -1,40 +1,71 @@
 import React from "react";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact";
+import { connect } from 'react-redux';
+import { setFiltes } from '../../store/ac';
 
-export const Pagination = (props) => {
-  const {pagesCount, currentPage} = props;
-  const pages = [];
-  for (let i = 0; i < pagesCount; i++) {
-    pages.push(i + 1);
-  }
+class Pagination extends React.Component {
 
-  return (
-    <MDBRow>
-      <MDBCol>
-        <MDBPagination className="mb-5">
+  onClick = (number) => () => {
+    this.props.dispatch(setFiltes({
+      currentPage: number,
+    }));
+  };
+  
 
-          <MDBPageItem disabled={+currentPage === 1}>
-            <MDBPageNav aria-label="Previous">
-              <span aria-hidden>&laquo;</span>
-            </MDBPageNav>
-          </MDBPageItem>
+  render() {
 
-          {pages.map(number => (
-            <MDBPageItem active={number === +currentPage}>
-              <MDBPageNav>
-                {number}
-              </MDBPageNav>
+    const {pagesCount, currentPage} = this.props;
+    const pages = [];
+    for (let i = 0; i < pagesCount; i++) {
+      pages.push(i + 1);
+    }
+
+    return (
+      <MDBRow>
+        <MDBCol>
+          <MDBPagination className="mb-5">
+
+            <MDBPageItem
+              disabled={+currentPage === 1}
+              onClick={this.onClick(+currentPage - 1)}
+              >
+                <MDBPageNav aria-label="Previous">
+                  <span aria-hidden>&laquo;</span>
+                </MDBPageNav>
             </MDBPageItem>
-          ))}
 
-          <MDBPageItem disabled={+currentPage === +pagesCount}>
-            <MDBPageNav aria-label="Previous">
-              <span aria-hidden>&raquo;</span>
-            </MDBPageNav>
-          </MDBPageItem>
+            {pages.map(number => (
+              <MDBPageItem
+                active={number === +currentPage}
+                key={number + 'key'}
+                onClick={this.onClick(number)}
+                >
+                  <MDBPageNav>
+                    {number}
+                  </MDBPageNav>
+              </MDBPageItem>
+            ))}
 
-        </MDBPagination>
-      </MDBCol>
-    </MDBRow>
+            <MDBPageItem
+              disabled={+currentPage === +pagesCount}
+              onClick={this.onClick(+currentPage + 1)}
+              >
+                <MDBPageNav aria-label="Previous">
+                  <span aria-hidden>&raquo;</span>
+                </MDBPageNav>
+            </MDBPageItem>
+
+          </MDBPagination>
+        </MDBCol>
+      </MDBRow>
     )
+  }
 }
+
+
+export default connect(
+  store => ({
+    currentPage: store.filters.currentPage,
+    pagesCount: store.filters.pages,
+  }),
+)(Pagination);
