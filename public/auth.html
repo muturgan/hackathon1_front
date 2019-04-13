@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script>
+        window.onload = function() {
+            const resultArr = location
+                .hash
+                .substr(1)
+                .split('&')[0]
+                .split('=');
+
+            if (resultArr[0] === 'error') {
+                window.opener
+                    .postMessage({
+                            token: null,
+                            error: resultArr[1],
+                        },
+                        "https://tula-hackathon-2019-sakharov.cf",
+                    );
+
+            } else {
+                window.opener
+                    .postMessage({
+                            token: resultArr[1],
+                            error: null,
+                        },
+                        "https://tula-hackathon-2019-sakharov.cf",
+                    );
+            }
+        };
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
