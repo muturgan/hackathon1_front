@@ -2,6 +2,7 @@ import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBView } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import { Select } from '../my/Select';
+import { connect } from 'react-redux';
 
 
 class GalleryPage extends React.Component {
@@ -26,8 +27,14 @@ class GalleryPage extends React.Component {
   async fetchImages() {
     this.state.loading = true;
 
-    const data = await fetch(`https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.state.sortBy}&limit=${this.state.limit}&offset=${this.state.offset}&direction=${this.state.direction}`)
-      .then((res) => res.json());
+    const data = await fetch(
+        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.state.sortBy}&limit=${this.state.limit}&offset=${this.state.offset}&direction=${this.state.direction}`,
+        {
+          headers: this.props.token !== null
+            ? {authorization: this.props.token}
+            : {},
+        }
+      ).then((res) => res.json());
 
     this.setState({ images: data.images.map(image => ({
       src: image.path,
@@ -67,4 +74,6 @@ class GalleryPage extends React.Component {
 }
 
 
-export default GalleryPage;
+export default connect(
+  store => ({token: store.user.token}),
+)(GalleryPage);

@@ -109,8 +109,7 @@ class TopNavigation extends Component {
     }
 }
 
-// export default TopNavigation;
+
 export default connect(
     store => ({user: store.user}),
-    // () => {},
 )(TopNavigation);
