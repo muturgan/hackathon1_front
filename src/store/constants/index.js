@@ -8,3 +8,7 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 export const LOADING_START = 'LOADING_START';
 export const LOADING_END = 'LOADING_END';
+
+export const SET_FILTERS = 'SET_FILTERS';
+
+export const PUSH_IMAGES = 'PUSH_IMAGES';

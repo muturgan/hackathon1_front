@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import GalleryPage from './pages/GalleryPage.jsx';
+import GalleryPage from './pages/GalleryPageWrapper.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
 class Routes extends React.Component {
