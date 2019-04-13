@@ -2,6 +2,7 @@ import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import { Loader } from '../my/Loader';
+import { Pagination } from '../my/Pagination';
 import { connect } from 'react-redux';
 import { loadingStart, loadingEnd, setFiltes, pushImages } from '../../store/ac';
 
@@ -136,6 +137,7 @@ class GalleryPage extends React.Component {
                       </div>
                     : ''
                 }
+                <Pagination pagesCount="5" currentPage="5"/>
 
                 <Gallery
                   images={this.props.images.images}
