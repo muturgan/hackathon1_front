@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { userGetData } from '../store/ac';
+import { USER_UPDATE_DATA } from '../store/constants';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
@@ -23,17 +23,38 @@ class TopNavigation extends Component {
         });
     }
 
-    authListener = (e) => {
+    login = async (yatoken) => {
+        const data = await fetch(
+            `https://tula-hackathon-2019-sakharov.cf/api/v1/login`,
+            {
+                method: 'POST',
+                headers: {['Content-Type']: 'application/json'},
+                body: JSON.stringify({yatoken}),
+            },
+        ).then((res) => res.json());
+
+        this.props.dispatch({
+            type: USER_UPDATE_DATA, 
+            payload: {
+            name: data.userData.real_name,
+            sex: data.userData.sex,
+            email: data.userData.default_email,
+            token: data.jwtToken,
+            avatar: data.userData.is_avatar_empty ? null : `https://avatars.yandex.net/get-yapic/${data.userData.default_avatar_id}/islands-200`,
+            }
+        });
+    }
+
+    authListener = async (e) => {
         e.source.close();
-        alert(e);
 
         if (e.origin !== 'https://tula-hackathon-2019-sakharov.cf') {
             return;
         }
-      
-        alert( "получено: " + e.data );
 
         window.removeEventListener("message", this.authListener);
+
+        await this.login(e.data.token);
     }
 
     auth = () => {
@@ -45,34 +66,33 @@ class TopNavigation extends Component {
         );
     };
 
-    fuck = () => {
-        console.dir(this.state);
-    }
-
     render() {
         return (
             <MDBNavbar className="flexible-navbar" light expand="md" scrolling>
                 <MDBNavbarToggler onClick = { this.onClick } />
                 <MDBCollapse isOpen = { this.state.collapse } navbar>
                     <MDBNavbarNav right>
+                        {
+                        !this.props.user.token
+                            ? <MDBNavItem>
+                                <a
+                                    className="border border-light rounded mr-1 nav-link Ripple-parent"
+                                    rel="noopener noreferrer"
+                                    onClick = { this.auth }
+                                    >
+                                        Войдите через Яндекс
+                                </a>
+                            </MDBNavItem>
+                            : ''
+                        }
                         <MDBNavItem>
-                            <a
+                            <span
                                 className="border border-light rounded mr-1 nav-link Ripple-parent"
                                 rel="noopener noreferrer"
-                                href="#"
-                                onClick = { this.auth }
-                                >
-                                    Войдите через Яндекс
-                            </a>
-                        </MDBNavItem>
-                        <MDBNavItem>
-                            <a
-                                className="border border-light rounded mr-1 nav-link Ripple-parent"
-                                rel="noopener noreferrer"
-                                href="#"
+                                style={{['user-select']: 'none'}}
                                 >
                                     {this.props.user.name}
-                            </a>
+                            </span>
                         </MDBNavItem>
                         <MDBNavItem>
                             <img

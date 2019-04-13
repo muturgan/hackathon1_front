@@ -1,7 +1,7 @@
-import { USER_GET_DATA, USER_LOGOUT } from '../constants'
+import { USER_UPDATE_DATA, USER_LOGOUT } from '../constants'
 
 export function userGetData() {
-    return { type: USER_GET_DATA };
+    return { type: USER_UPDATE_DATA };
 };
 
 export function userLogout() {
