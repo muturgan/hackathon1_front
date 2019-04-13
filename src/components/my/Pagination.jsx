@@ -15,7 +15,7 @@ export const Pagination = (props) => {
 
           <MDBPageItem disabled={+currentPage === 1}>
             <MDBPageNav aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
+              <span aria-hidden>&laquo;</span>
             </MDBPageNav>
           </MDBPageItem>
 
@@ -29,7 +29,7 @@ export const Pagination = (props) => {
 
           <MDBPageItem disabled={+currentPage === +pagesCount}>
             <MDBPageNav aria-label="Previous">
-              <span aria-hidden="true">&raquo;</span>
+              <span aria-hidden>&raquo;</span>
             </MDBPageNav>
           </MDBPageItem>
 
