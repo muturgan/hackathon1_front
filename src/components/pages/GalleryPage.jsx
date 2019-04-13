@@ -2,6 +2,7 @@ import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import { Loader } from '../my/Loader';
+import Selects from '../my/Selects';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
 import { loadingStart, loadingEnd, setFiltes } from '../../store/ac';
@@ -18,22 +19,24 @@ class GalleryPage extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchImages();
+    this.fetchImages(this.props);
   }
 
-  onChangeHandler = (ev) => {
-    this.props.dispatch(setFiltes({
-      [ev.target.name]: ev.target.value,
-    }));
-
-    this.fetchImages();
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.filters.sortBy !== this.props.filters.sortBy
+      || nextProps.filters.limit !== this.props.filters.limit
+      || nextProps.filters.currentPage !== this.props.filters.currentPage
+      || nextProps.filters.direction !== this.props.filters.direction
+    ) {this.fetchImages(nextProps)}
+    return true;
   }
 
-  fetchImages = async () => {
+  fetchImages = async (props) => {
     this.props.dispatch(loadingStart());
 
     const data = await fetch(
-        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.props.filters.sortBy}&limit=${this.props.filters.limit}&page=${this.props.filters.currentPage}&direction=${this.props.filters.direction}`,
+        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${props.filters.sortBy}&limit=${props.filters.limit}&page=${props.filters.currentPage}&direction=${props.filters.direction}`,
         {
           headers: this.props.token !== null
             ? {authorization: this.props.token}
@@ -57,115 +60,28 @@ class GalleryPage extends React.Component {
     }));
 
     this.props.dispatch(loadingEnd());
-
-    // this.props.dispatch(pushImages({ images: data.images.map(image => ({
-    //   src: image.path,
-    //   thumbnail: image.path,
-    //   tags: image.tags,
-    //   caption: image.name,
-    //   thumbnailWidth: 320,
-    //   thumbnailHeight: 320,
-    // }))}));
   };
 
   render() {
     return (
       <MDBRow>
         <MDBCol md="12">
-          <select
-            className="browser-default custom-select"
-            onChange={this.onChangeHandler}
-            name="sortBy"
-            >
-              <option value="id">Дата загрузки</option>
-              <option value="name">Название</option>
-              <option value="likes">Количество лайков</option>
-          </select>
-          <select
-            className="browser-default custom-select"
-            onChange={this.onChangeHandler}
-            name="direction"
-            >
-              <option value="asc">По убыванию</option>
-              <option value="desc">По возрастанию</option>
-          </select>
-          <select
-            className="browser-default custom-select"
-            onChange={this.onChangeHandler}
-            defaultValue="20"
-            name="limit"
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="80">80</option>
-              <option value="100500">Все</option>
-          </select>
 
           <MDBCard className="mt-5">
+
+            <Selects/>
+            <Loader/>
 
             <MDBCardBody
               className = "text-center"
               style={{ width: '100%'}}
             >
-              <div
-                style={{
-                  margin: 0,
-                  padding: 0,
-                  width: '100%',
-                  height: '100%',
-                  position: 'relative',
-                  zIndex: 1,
-                }}
-              >
-                { this.props.isLoading
-                    ? <div
-                        style={{
-                          margin: 0,
-                          padding: 0,
-                          top: 0,
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          position: 'absolute',
-                          zIndex: 2,
-                        }}
-                      >
-                        <div
-                          style={{
-                            margin: 0,
-                            padding: 0,
-                            width: '100%',
-                            height: '100%',
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            zIndex: 3,
-                          }}
-                        >
-                        </div>
-                        <div
-                          style={{
-                            margin: 0,
-                            padding: 0,
-                            width: '100%',
-                            height: '100%',
-                            zIndex: 4,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Loader/>
-                        </div>
-                      </div>
-                    : ''
-                }
                 <Pagination/>
 
                 <Gallery
                   images={this.state.images}
                   enableImageSelection={false}
                 />
-              </div>
 
             </MDBCardBody>
   

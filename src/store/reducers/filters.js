@@ -15,6 +15,10 @@ const reducer = (filters = defaultFilters, action) => {
             for (const key in filters) {
                 if (key in action.payload && action.payload[key]) {
                     newFilters[key] = action.payload[key];
+
+                    if (key === 'pages' && filters.currentPage > action.payload.pages) {
+                        newFilters.currentPage = action.payload.pages;
+                    }
                 }
             }
             return newFilters;
