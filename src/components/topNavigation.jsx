@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { USER_UPDATE_DATA } from '../store/constants';
+import { userLogin } from '../store/ac';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
@@ -33,16 +33,7 @@ class TopNavigation extends Component {
             },
         ).then((res) => res.json());
 
-        this.props.dispatch({
-            type: USER_UPDATE_DATA, 
-            payload: {
-            name: data.userData.real_name,
-            sex: data.userData.sex,
-            email: data.userData.default_email,
-            token: data.jwtToken,
-            avatar: data.userData.is_avatar_empty ? null : `https://avatars.yandex.net/get-yapic/${data.userData.default_avatar_id}/islands-200`,
-            }
-        });
+        this.props.dispatch(userLogin(data));
     }
 
     authListener = async (e) => {
@@ -89,7 +80,7 @@ class TopNavigation extends Component {
                             <span
                                 className="border border-light rounded mr-1 nav-link Ripple-parent"
                                 rel="noopener noreferrer"
-                                style={{['user-select']: 'none'}}
+                                style={{userSelect: 'none'}}
                                 >
                                     {this.props.user.name}
                             </span>

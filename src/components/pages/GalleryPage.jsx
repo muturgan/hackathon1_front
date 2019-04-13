@@ -1,8 +1,10 @@
 import React from 'react'
-import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBView } from 'mdbreact';
+import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
+import { Loader } from '../my/Loader';
 import { Select } from '../my/Select';
 import { connect } from 'react-redux';
+import { loadingStart, loadingEnd } from '../../store/ac';
 
 
 class GalleryPage extends React.Component {
@@ -16,7 +18,6 @@ class GalleryPage extends React.Component {
       direction: 'asc',
       limit: 20,
       offset: 0,
-      loading: false,
     };
   }
 
@@ -25,7 +26,7 @@ class GalleryPage extends React.Component {
   }
 
   async fetchImages() {
-    this.state.loading = true;
+    this.props.dispatch(loadingStart());
 
     const data = await fetch(
         `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${this.state.sortBy}&limit=${this.state.limit}&offset=${this.state.offset}&direction=${this.state.direction}`,
@@ -45,7 +46,7 @@ class GalleryPage extends React.Component {
       thumbnailHeight: 320,
     }))});
 
-    this.state.loading = false;
+    this.props.dispatch(loadingEnd());
   };
 
   render() {
@@ -60,10 +61,64 @@ class GalleryPage extends React.Component {
               className = "text-center"
               style={{ width: '100%'}}
             >
-              <Gallery
-                images={this.state.images}
-                enableImageSelection={false}
-              />
+              <div
+                style={{
+                  margin: 0,
+                  padding: 0,
+                  width: '100%',
+                  height: '100%',
+                  position: 'relative',
+                  zIndex: 1,
+                }}
+              >
+                { this.props.isLoading
+                    ? <div
+                        style={{
+                          margin: 0,
+                          padding: 0,
+                          top: 0,
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          position: 'absolute',
+                          zIndex: 2,
+                        }}
+                      >
+                        <div
+                          style={{
+                            margin: 0,
+                            padding: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            zIndex: 3,
+                          }}
+                        >
+                        </div>
+                        <div
+                          style={{
+                            margin: 0,
+                            padding: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: 4,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Loader/>
+                        </div>
+                      </div>
+                    : ''
+                }
+
+                <Gallery
+                  images={this.state.images}
+                  enableImageSelection={false}
+                />
+              </div>
+
             </MDBCardBody>
   
           </MDBCard>
@@ -75,5 +130,8 @@ class GalleryPage extends React.Component {
 
 
 export default connect(
-  store => ({token: store.user.token}),
+  store => ({
+    token: store.user.token,
+    isLoading: store.loading,
+  }),
 )(GalleryPage);
