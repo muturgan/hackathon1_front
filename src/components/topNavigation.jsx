@@ -4,6 +4,7 @@ import { userLogin, newError } from '../store/ac';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
+import { BASE_URL } from '../store/base_url.js';
 
 class TopNavigation extends Component {
     that = this;
@@ -25,7 +26,7 @@ class TopNavigation extends Component {
 
     login = async (yatoken) => {
         const data = await fetch(
-            `https://tula-hackathon-2019-sakharov.cf/api/v1/login`,
+            `${BASE_URL}/login`,
             {
                 method: 'POST',
                 headers: {['Content-Type']: 'application/json'},

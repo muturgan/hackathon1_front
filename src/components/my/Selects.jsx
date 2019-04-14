@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setFiltes, newError } from '../../store/ac';
+import { BASE_URL } from '../../store/base_url.js';
 
 class Selects extends Component {
 
@@ -17,9 +18,8 @@ class Selects extends Component {
 	}
 	
 	fetchTags = async () => {
-		const data = await fetch(
-			`https://tula-hackathon-2019-sakharov.cf/api/v1/tags`
-		).then(res => res.json());
+		const data = await fetch(`${BASE_URL}/tags`)
+			.then(res => res.json());
 
 		if (data.success === false) {
       this.props.dispatch(newError({code: 'Ошибка загрузки списка тегов', message: data.message}));
@@ -62,7 +62,7 @@ class Selects extends Component {
 				<select
 					className="browser-default custom-select"
 					onChange={this.onChangeHandler}
-					defaultValue={this.props.filters.limit}
+					defaultValue={this.props.limit}
 					name="limit"
 					disabled={this.props.isLoading === true}
 					>
@@ -92,9 +92,7 @@ class Selects extends Component {
 
 export default connect(
   store => ({
-    token: store.user.token,
     isLoading: store.loading,
-    filters: store.filters,
-    images: store.images,
+    limit: store.filters.limit,
   }),
 )(Selects);

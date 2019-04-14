@@ -6,6 +6,7 @@ import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
 import { loadingStart, loadingEnd, setFiltes, userLogout, newError } from '../../store/ac';
+import { BASE_URL } from '../../store/base_url.js';
 
 
 class GalleryPage extends React.Component {
@@ -42,7 +43,7 @@ class GalleryPage extends React.Component {
     const {sortBy, limit, currentPage, direction, tag} = props.filters;
 
     const data = await fetch(
-        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
+        `${BASE_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
         {
           headers: this.props.token !== null
             ? {authorization: this.props.token}

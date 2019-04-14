@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://tula-hackathon-2019-sakharov.cf/api/v1';
