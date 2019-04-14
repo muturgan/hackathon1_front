@@ -70,6 +70,8 @@ class GalleryPage extends React.Component {
       })),
     });
 
+    this.forceUpdate();
+
     this.props.dispatch(setFiltes({
       pages: data.pages,
     }));

@@ -1,8 +1,8 @@
-import { FETCH_IMAGES } from '../constants';
+import { PUSH_IMAGES } from '../constants';
 
-export function fetchImages(data) {
+export function pushImages(data) {
     return {
-        type: FETCH_IMAGES,
+        type: PUSH_IMAGES,
         payload: data,
     };
 };
