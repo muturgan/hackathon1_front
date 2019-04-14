@@ -1,7 +1,6 @@
 import React from 'react'
 import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
-import { Loader } from '../my/Loader';
 import Selects from '../my/Selects';
 import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
@@ -89,7 +88,6 @@ class GalleryPage extends React.Component {
           <MDBCard className="mt-5">
 
             <Selects/>
-            <Loader/>
 
             <MDBCardBody
               className = "text-center"
