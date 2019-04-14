@@ -1,6 +1,4 @@
 import { SET_FILTERS } from '../constants';
-// import { fetchImages } from '../ac';
-// import { store } from '../store';
 
 const defaultFilters = {
     sortBy: 'id',
@@ -8,6 +6,7 @@ const defaultFilters = {
     limit: 20,
     currentPage: 1,
     pages: 1,
+    tag: 'all',
 };
 
 const reducer = (filters = defaultFilters, action) => {
@@ -26,14 +25,6 @@ const reducer = (filters = defaultFilters, action) => {
                 }
             }
 
-            // if (
-            //     filters.sortBy !== newFilters.sortBy ||
-            //     filters.direction !== newFilters.direction ||
-            //     filters.limit !== newFilters.limit ||
-            //     filters.currentPage !== newFilters.currentPage
-            // ) {
-            //     store.dispatch(fetchImages(newFilters));
-            // }
             return newFilters;
 
         default:

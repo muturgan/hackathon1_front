@@ -32,16 +32,17 @@ class GalleryPage extends React.Component {
       || nextProps.filters.limit !== this.props.filters.limit
       || nextProps.filters.currentPage !== this.props.filters.currentPage
       || nextProps.filters.direction !== this.props.filters.direction
+      || nextProps.filters.tag !== this.props.filters.tag
     ) {this.fetchImages(nextProps)}
     return true;
   }
 
   fetchImages = async (props) => {
     this.props.dispatch(loadingStart());
-    const {sortBy, limit, currentPage, direction} = props.filters;
+    const {sortBy, limit, currentPage, direction, tag} = props.filters;
 
     const data = await fetch(
-        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}`,
+        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
         {
           headers: this.props.token !== null
             ? {authorization: this.props.token}

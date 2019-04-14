@@ -1,8 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFiltes } from '../../store/ac';
+import { setFiltes, newError } from '../../store/ac';
 
 class Selects extends Component {
+
+	constructor() {
+    super();
+
+    this.state = {
+      tags: [],
+    };
+  }
+
+  componentDidMount() {
+    this.fetchTags();
+	}
+	
+	fetchTags = async () => {
+		const data = await fetch(
+			`https://tula-hackathon-2019-sakharov.cf/api/v1/tags`
+		).then(res => res.json());
+
+		if (data.success === false) {
+      this.props.dispatch(newError({code: 'Ошибка загрузки списка тегов', message: data.message}));
+      return;
+		}
+		
+		this.setState({
+      tags: data.tags,
+    });
+	};
 
 	onChangeHandler = (ev) => {
     this.props.dispatch(setFiltes({
@@ -35,7 +62,7 @@ class Selects extends Component {
 				<select
 					className="browser-default custom-select"
 					onChange={this.onChangeHandler}
-					defaultValue="20"
+					defaultValue={this.props.filters.limit}
 					name="limit"
 					disabled={this.props.isLoading === true}
 					>
@@ -44,6 +71,18 @@ class Selects extends Component {
 						<option value="50">50</option>
 						<option value="80">80</option>
 						<option value="100500">Все</option>
+				</select>
+				<select
+					className="browser-default custom-select"
+					onChange={this.onChangeHandler}
+					name="tag"
+					disabled={this.props.isLoading === true}
+					>
+						<option value="all">Все</option>
+						{
+							this.state.tags
+								.map(tag => <option key={tag} value={tag}>{tag}</option>)
+						}
 				</select>
 			</React.Fragment>
 		);
