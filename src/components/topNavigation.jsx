@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userLogin } from '../store/ac';
+import { userLogin, newError } from '../store/ac';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
@@ -31,21 +31,34 @@ class TopNavigation extends Component {
                 headers: {['Content-Type']: 'application/json'},
                 body: JSON.stringify({yatoken}),
             },
-        ).then((res) => res.json());
+        ).then(res => res.json());
 
-        this.props.dispatch(userLogin(data));
+        if (data.success = false) {
+            this.props.dispatch(newError({code: data.code, message: data.message}));
+
+        } else {
+            this.props.dispatch(userLogin(data));
+        }
     }
 
-    authListener = async (e) => {
-        e.source.close();
+    authListener = async (ev) => {
+        ev.source.close();
 
-        if (e.origin !== 'https://tula-hackathon-2019-sakharov.cf') {
+        if (ev.origin !== 'https://tula-hackathon-2019-sakharov.cf') {
             return;
         }
 
         window.removeEventListener("message", this.authListener);
 
-        await this.login(e.data.token);
+        if (ev.data.error !== null) {
+            this.props.dispatch(newError({
+                code: ev.data.error.code,
+                message: ev.data.error.message,
+            }));
+
+        } else {
+            this.login(ev.data.token);
+        }
     }
 
     auth = () => {

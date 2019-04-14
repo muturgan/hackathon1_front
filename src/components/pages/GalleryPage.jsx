@@ -3,9 +3,10 @@ import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import { Loader } from '../my/Loader';
 import Selects from '../my/Selects';
+import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
-import { loadingStart, loadingEnd, setFiltes } from '../../store/ac';
+import { loadingStart, loadingEnd, setFiltes, userLogout, newError } from '../../store/ac';
 
 
 class GalleryPage extends React.Component {
@@ -23,6 +24,10 @@ class GalleryPage extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (Object.keys(nextProps.filters).every(key => this.props.filters[key] === nextProps.filters[key]) ) {
+      return false;
+    }
+
     if (
       nextProps.filters.sortBy !== this.props.filters.sortBy
       || nextProps.filters.limit !== this.props.filters.limit
@@ -34,15 +39,26 @@ class GalleryPage extends React.Component {
 
   fetchImages = async (props) => {
     this.props.dispatch(loadingStart());
+    const {sortBy, limit, currentPage, direction} = props.filters;
 
     const data = await fetch(
-        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${props.filters.sortBy}&limit=${props.filters.limit}&page=${props.filters.currentPage}&direction=${props.filters.direction}`,
+        `https://tula-hackathon-2019-sakharov.cf/api/v1/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}`,
         {
           headers: this.props.token !== null
             ? {authorization: this.props.token}
             : {},
         }
-      ).then((res) => res.json());
+      ).then(res => res.json());
+
+    if (data.success === false) {
+      if (data.code === 419) {
+        this.props.dispatch(userLogout());
+      }
+
+      this.props.dispatch(newError({code: data.code, message: data.message}));
+      this.props.dispatch(loadingEnd());
+      return;
+    }
 
     this.setState({
       images: data.images.map(image => ({
@@ -65,6 +81,9 @@ class GalleryPage extends React.Component {
   render() {
     return (
       <MDBRow>
+
+        <Modal/>
+
         <MDBCol md="12">
 
           <MDBCard className="mt-5">

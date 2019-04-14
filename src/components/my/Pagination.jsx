@@ -26,7 +26,7 @@ class Pagination extends React.Component {
           <MDBPagination className="mb-5">
 
             <MDBPageItem
-              disabled={+currentPage === 1}
+              disabled={+currentPage === 1 || this.props.isLoading === true}
               onClick={this.onClick(+currentPage - 1)}
               >
                 <MDBPageNav aria-label="Previous">
@@ -37,6 +37,7 @@ class Pagination extends React.Component {
             {pages.map(number => (
               <MDBPageItem
                 active={number === +currentPage}
+                disabled={this.props.isLoading === true}
                 key={number + 'key'}
                 onClick={this.onClick(number)}
                 >
@@ -47,7 +48,7 @@ class Pagination extends React.Component {
             ))}
 
             <MDBPageItem
-              disabled={+currentPage === +pagesCount}
+              disabled={+currentPage === +pagesCount || this.props.isLoading === true}
               onClick={this.onClick(+currentPage + 1)}
               >
                 <MDBPageNav aria-label="Previous">
@@ -67,5 +68,6 @@ export default connect(
   store => ({
     currentPage: store.filters.currentPage,
     pagesCount: store.filters.pages,
+    isLoading: store.loading,
   }),
 )(Pagination);

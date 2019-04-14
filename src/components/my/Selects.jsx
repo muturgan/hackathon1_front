@@ -17,6 +17,7 @@ class Selects extends Component {
 					className="browser-default custom-select"
 					onChange={this.onChangeHandler}
 					name="sortBy"
+					disabled={this.props.isLoading === true}
 					>
 						<option value="id">Дата загрузки</option>
 						<option value="name">Название</option>
@@ -26,6 +27,7 @@ class Selects extends Component {
 					className="browser-default custom-select"
 					onChange={this.onChangeHandler}
 					name="direction"
+					disabled={this.props.isLoading === true}
 					>
 						<option value="asc">По возрастанию</option>
 						<option value="desc">По убыванию</option>
@@ -35,6 +37,7 @@ class Selects extends Component {
 					onChange={this.onChangeHandler}
 					defaultValue="20"
 					name="limit"
+					disabled={this.props.isLoading === true}
 					>
 						<option value="10">10</option>
 						<option value="20">20</option>
