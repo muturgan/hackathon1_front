@@ -14,7 +14,7 @@ class Modal extends Component {
           <MDBModalBody className="text-center">
           <span> {this.props.message} </span>
           <hr/>
-          <MDBBtn color="secondary" onClick={this.close}>Close</MDBBtn>
+          <MDBBtn color="secondary" onClick={this.close}>Ясненько...</MDBBtn>
           </MDBModalBody>
         </MDBModal>
       )
