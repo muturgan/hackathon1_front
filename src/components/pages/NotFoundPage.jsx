@@ -9,7 +9,7 @@ const NotFoundPage =  () => {
       <div className="full">
         <MDBRow className="bad-gateway-row">
           <MDBCol md="8">
-            <img alt="Error 404" className="img-fluid" hieght="20px" src={logo}/>
+            <img alt="Error 404" className="img-fluid" src={logo}/>
             <h2 className="h2-responsive mt-3 mb-2">404. Ошибочка вышла.</h2>
             <h4>Данной страницы не существует.</h4>
           </MDBCol>
