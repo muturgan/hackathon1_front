@@ -123,6 +123,8 @@ export class Image extends Component {
         return (
                 <CheckButton key="Select"
             index={this.props.index}
+            likes={this.props.item.likes}
+            likedByYou={this.props.item.likedByYou}
             color={"rgba(255, 255, 255, 0.7)"}
             selectedColor={"#4285f4"}
             hoverColor={"rgba(255, 255, 255, 1)"}
