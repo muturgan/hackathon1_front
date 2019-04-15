@@ -63,9 +63,13 @@ class GalleryPage extends React.Component {
 
     this.setState({
       images: data.images.map(image => ({
+        id: image.id,
         src: image.path,
         thumbnail: image.path,
         tags: image.tags,
+        likes: image.likes,
+        likedByYou: image.likedByYou,
+        isSelected: !!image.likes,
         caption: image.name,
         thumbnailWidth: 320,
         thumbnailHeight: 320,
@@ -80,6 +84,45 @@ class GalleryPage extends React.Component {
 
     this.props.dispatch(loadingEnd());
   };
+
+
+  onSelectImage = async (index, image) => {
+    if (this.props.token === null) {
+      this.props.dispatch(newError({code: 'Авторизуйтесь пожалуйста', message: 'Только авторизованые пользователи могут оценивать изображения'}));
+      return;
+    }
+
+    const images = this.state.images.slice();
+    const img = images[index];
+    const endPoint = img.likedByYou ? 'dislike' : 'like';
+
+    const data = await fetch(
+      `${BASE_URL}/images/${img.id}/${endPoint}`,
+      {
+        method: 'PATCH',
+        headers: {authorization: this.props.token},
+      }
+    ).then(res => res.json());
+
+    if (data.success === false) {
+      if (data.code === 419) {
+        this.props.dispatch(userLogout());
+      }
+
+      this.props.dispatch(newError({code: data.code, message: data.message}));
+      this.props.dispatch(loadingEnd());
+      return;
+    }
+  
+    img.likes = endPoint === 'like'
+      ? img.likes + 1
+      : img.likes - 1;
+    img.isSelected = !!img.likes;
+    img.likedByYou = !img.likedByYou;
+
+    this.state.images[index] = img;
+}
+
 
   render() {
     return (
@@ -98,10 +141,14 @@ class GalleryPage extends React.Component {
               style={{ width: '100%'}}
             >
                 <Pagination/>
+                {/* <svg width="640" height="480" viewbox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m219.28949,21.827393c-66.240005,0 -119.999954,53.76001 -119.999954,120c0,134.755524 135.933151,170.08728 228.562454,303.308044c87.574219,-132.403381 228.5625,-172.854584 228.5625,-303.308044c0,-66.23999 -53.759888,-120 -120,-120c-48.047913,0 -89.401611,28.370422 -108.5625,69.1875c-19.160797,-40.817078 -60.514496,-69.1875 -108.5625,-69.1875z"/>
+                </svg> */}
+                
 
                 <Gallery
                   images={this.state.images}
-                  enableImageSelection={false}
+                  onSelectImage={this.onSelectImage}
                 />
 
             </MDBCardBody>
