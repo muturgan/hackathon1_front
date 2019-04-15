@@ -79,7 +79,7 @@ class TopNavigation extends Component {
                     <MDBNavbarNav right>
                         {
                         !this.props.user.token
-                            ? <MDBNavItem>
+                            ? <MDBNavItem className="mt-2">
                                 <a
                                     className="border border-light rounded mr-1 nav-link Ripple-parent"
                                     rel="noopener noreferrer"
@@ -88,7 +88,7 @@ class TopNavigation extends Component {
                                         Войдите через Яндекс
                                 </a>
                             </MDBNavItem>
-                            : <MDBNavItem>
+                            : <MDBNavItem className="mt-2">
                                 <a
                                     className="border border-light rounded mr-1 nav-link Ripple-parent"
                                     rel="noopener noreferrer"
@@ -98,7 +98,7 @@ class TopNavigation extends Component {
                                 </a>
                             </MDBNavItem>
                         }
-                        <MDBNavItem>
+                        <MDBNavItem className="ml-1 mt-2">
                             <span
                                 className="border border-light rounded mr-1 nav-link Ripple-parent"
                                 rel="noopener noreferrer"
@@ -107,7 +107,7 @@ class TopNavigation extends Component {
                                     {this.props.user.name}
                             </span>
                         </MDBNavItem>
-                        <MDBNavItem>
+                        <MDBNavItem className="ml-3">
                             <img
                                 src={this.props.user.avatar || (this.props.user.sex === 'male' ? ava_male : ava_female)}
                                 width="60" height="60"

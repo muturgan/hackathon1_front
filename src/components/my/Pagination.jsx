@@ -23,7 +23,7 @@ class Pagination extends React.Component {
     return (
       <MDBRow>
         <MDBCol>
-          <MDBPagination className="mb-5">
+          <MDBPagination className="mb-1 mt-2">
 
             <MDBPageItem
               disabled={+currentPage === 1 || this.props.isLoading === true}

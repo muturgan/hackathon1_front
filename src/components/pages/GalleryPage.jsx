@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardHeader } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import Selects from '../my/Selects';
 import Modal from '../my/Modal';
@@ -137,25 +137,27 @@ class GalleryPage extends React.Component {
 
         <MDBCol md="12">
 
-          <MDBCard className="mt-5">
-
-            <Selects/>
-
+          <MDBCard>
+            <MDBCardHeader>Контролы</MDBCardHeader>
             <MDBCardBody
               className = "text-center"
               style={{ width: '100%'}}
             >
-                <Pagination/>
-                {/* <svg width="640" height="480" viewbox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-                    <path d="m219.28949,21.827393c-66.240005,0 -119.999954,53.76001 -119.999954,120c0,134.755524 135.933151,170.08728 228.562454,303.308044c87.574219,-132.403381 228.5625,-172.854584 228.5625,-303.308044c0,-66.23999 -53.759888,-120 -120,-120c-48.047913,0 -89.401611,28.370422 -108.5625,69.1875c-19.160797,-40.817078 -60.514496,-69.1875 -108.5625,-69.1875z"/>
-                </svg> */}
-                
+              <Selects/>
+              <Pagination/>
+            </MDBCardBody>
+          </MDBCard>
 
+          <MDBCard className="mt-3">
+            <MDBCardHeader>Галерея</MDBCardHeader>
+            <MDBCardBody
+              className = "text-center"
+              style={{ width: '100%'}}
+            >
                 <Gallery
                   images={this.state.images}
                   onSelectImage={this.onSelectImage}
                 />
-
             </MDBCardBody>
   
           </MDBCard>
