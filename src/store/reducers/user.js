@@ -20,9 +20,7 @@ const reducer = (userState = defaultUser, action) => {
             return newState;
 
         case USER_LOGOUT:
-            const logoutState = {...userState };
-            logoutState.token = null;
-            return logoutState;
+            return defaultUser;
 
         default:
             return userState;

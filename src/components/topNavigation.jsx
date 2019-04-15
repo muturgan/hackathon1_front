@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userLogin, newError } from '../store/ac';
+import { userLogin, userLogout, newError } from '../store/ac';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
@@ -88,7 +88,15 @@ class TopNavigation extends Component {
                                         Войдите через Яндекс
                                 </a>
                             </MDBNavItem>
-                            : ''
+                            : <MDBNavItem>
+                                <a
+                                    className="border border-light rounded mr-1 nav-link Ripple-parent"
+                                    rel="noopener noreferrer"
+                                    onClick = { () => this.props.dispatch(userLogout()) }
+                                    >
+                                        Выйти из профиля
+                                </a>
+                            </MDBNavItem>
                         }
                         <MDBNavItem>
                             <span
