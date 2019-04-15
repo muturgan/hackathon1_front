@@ -24,6 +24,10 @@ class GalleryPage extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.token !== this.props.token) {
+      this.fetchImages(nextProps);
+    }
+
     if (Object.keys(nextProps.filters).every(key => this.props.filters[key] === nextProps.filters[key]) ) {
       return false;
     }
@@ -45,8 +49,8 @@ class GalleryPage extends React.Component {
     const data = await fetch(
         `${BASE_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
         {
-          headers: this.props.token !== null
-            ? {authorization: this.props.token}
+          headers: props.token !== null
+            ? {authorization: props.token}
             : {},
         }
       ).then(res => res.json());
@@ -121,6 +125,7 @@ class GalleryPage extends React.Component {
     img.likedByYou = !img.likedByYou;
 
     this.state.images[index] = img;
+    this.forceUpdate();
 }
 
 
