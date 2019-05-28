@@ -28,9 +28,6 @@ export class CheckButton extends Component {
     }
 
     render () {
-        let circleStyle = {
-            display: this.props.isSelected ? "block" : "none"
-        };
 
         return (
                 <div
@@ -51,52 +48,23 @@ export class CheckButton extends Component {
             }
             onMouseOver={(e) => this.setState({hover: true})}
             onMouseOut={(e) => this.setState({hover: false})}>
-            {/* <svg style={{display: 'block', zIndex: 100, width: '30px'}} width="640" height="480" viewbox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-                    <path d="m219.28949,21.827393c-66.240005,0 -119.999954,53.76001 -119.999954,120c0,134.755524 135.933151,170.08728 228.562454,303.308044c87.574219,-132.403381 228.5625,-172.854584 228.5625,-303.308044c0,-66.23999 -53.759888,-120 -120,-120c-48.047913,0 -89.401611,28.370422 -108.5625,69.1875c-19.160797,-40.817078 -60.514496,-69.1875 -108.5625,-69.1875z"/>
-                </svg> */}
+
                 <svg
             fill={this.fill()}
-            height="24" viewBox="0 0 24 24"
+            height="24"
             width="24"
+            viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4.25C8.85-1.15 0 .42 0 7.19 0 11.85 5.57 16.62 12 23c6.43-6.38 12-11.15 12-15.8 0-6.8-8.88-8.31-12-2.95z"/>
 
-                <radialGradient
-            id="shadow"
-            cx="38"
-            cy="95.488"
-            r="10.488"
-            gradientTransform="matrix(1 0 0 -1 -26 109)"
-            gradientUnits="userSpaceOnUse">
-                <stop
-            offset=".832"
-            stopColor="#010101">
-                </stop>
-                <stop
-            offset="1"
-            stopColor="#010101"
-            stopOpacity="0">
-                </stop>
-                </radialGradient>
-
-                <circle
-            style={circleStyle}
-            opacity=".26"
-            fill="url(#shadow)"
-            cx="12" cy="13.512"
-            r="10.488">
-                </circle>
-                <circle
-            style={circleStyle}
-            fill="#FFF"
-            cx="12"
-            cy="12.2"
-            r="8.292">
-                </circle>
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
-
-                <span style={{color: this.props.likedByYou ? 'red' : 'tomato', position: 'absolute', top: 10, left: 30}}> {this.props.likes || ''} </span>
+                <b style={{
+                    color: this.props.likedByYou ? 'red' : 'tomato',
+                    position: 'absolute',
+                    top: 10,
+                    left: 35,
+                    textShadow: '1px 0 1px black, -1px 0 1px black, 0 1px 1px black, 0 -1px 1px black'
+                        }}> {this.props.likes || ''} </b>
 
                 </div>
         )

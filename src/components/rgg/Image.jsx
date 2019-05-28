@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CheckButton } from './CheckButton';
-// import { Heart } from '../my/heart/Heart.jsx';
 
 export class Image extends Component {
     constructor (props) {
@@ -195,10 +194,6 @@ export class Image extends Component {
                 height: "36px",
                 width: "100%"}}>
                 {this.renderCheckButton()}
-                {/* <Heart
-                    likes={this.props.item.likes}
-                    likedByYou={this.props.item.likedByYou}
-                /> */}
                 </div>
 
                 <div className="ReactGridGallery_tile-bottom-bar"
