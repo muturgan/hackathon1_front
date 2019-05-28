@@ -1,7 +1,13 @@
 import { USER_UPDATE_DATA, USER_LOGOUT } from '../constants';
 import { fetchImages } from './index';
+import { userType, userLoginDataType } from '../../custom_types';
+import { storeType } from '../store';
+import { ThunkAction } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
-export function userLoginAction(data) {
+
+
+export function userLoginAction(data: userLoginDataType) {
     return {
         type: USER_UPDATE_DATA,
         payload: {
@@ -10,7 +16,7 @@ export function userLoginAction(data) {
             email: data.userData.default_email,
             token: data.jwtToken,
             avatar: data.userData.is_avatar_empty ? null : `https://avatars.yandex.net/get-yapic/${data.userData.default_avatar_id}/islands-200`,
-        },
+        } as userType,
     };
 };
 
@@ -18,14 +24,16 @@ export function userLogoutAction() {
     return { type: USER_LOGOUT };
 };
 
-export function userLogin(data) {
+
+
+export function userLogin(data: userLoginDataType): ThunkAction<void, storeType, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(userLoginAction(data));
         dispatch(fetchImages());
     };
 };
 
-export function userLogout() {
+export function userLogout(): ThunkAction<void, storeType, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(userLogoutAction());
         dispatch(fetchImages());

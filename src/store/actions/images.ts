@@ -1,9 +1,13 @@
 import { IMAGES_FETCH_SUCCESS } from '../constants';
 import { loadingStart, loadingEnd, newError, userLogout, setFiltes } from './index';
 import { BASE_URL } from '../base_url';
+import { imageType, fetchedImagesType } from '../../custom_types';
+import { storeType } from '../store';
+import { ThunkAction } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
 
-export function voteForImage(index) {
+export function voteForImage(index: number): ThunkAction<void, storeType, {}, AnyAction> {
     return async (dispatch, getState) => {
         try {
             const {images, user} = getState();
@@ -52,7 +56,7 @@ export function voteForImage(index) {
 
 
 
-export function imagesFetchSuccess(images) {
+export function imagesFetchSuccess(images: Array<imageType>) {
     return {
         type: IMAGES_FETCH_SUCCESS,
         payload: images,
@@ -61,7 +65,7 @@ export function imagesFetchSuccess(images) {
 
 
 
-export function fetchImages() {
+export function fetchImages(): ThunkAction<void, storeType, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(loadingStart());
 
@@ -76,13 +80,13 @@ export function fetchImages() {
                 : {},
             }
         ).then(res => res.json())
-        .then(data => {
+        .then((data: fetchedImagesType) => {
             if (data.success !== true) {
                 if (data.code === 419) {
                     dispatch(userLogout());
                 }
     
-                dispatch(newError({code: data.code, message: data.message}));
+                dispatch(newError({code: data.code, message: (data as any).message}));
                 dispatch(loadingEnd());
                 return;
             }

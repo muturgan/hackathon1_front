@@ -4,7 +4,7 @@ import { userLogin, userLogout, newError } from '../store/actions';
 import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
-import { BASE_URL } from '../store/base_url.js';
+import { BASE_URL } from '../store/base_url';
 
 class TopNavigation extends Component {
     that = this;

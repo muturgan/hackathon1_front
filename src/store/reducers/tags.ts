@@ -1,6 +1,8 @@
+import { Reducer } from 'redux';
 import { TAGS_FETCH_SUCCESS } from '../constants';
+import { myAction } from '../../custom_types';
 
-const reducer = (tags = [], action) => {
+const reducer: Reducer<Array<string>, myAction<Array<string>>> = (tags = [], action) => {
     switch (action.type) {
         case TAGS_FETCH_SUCCESS:
             return action.payload;

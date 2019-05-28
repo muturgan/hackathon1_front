@@ -1,12 +1,14 @@
+import { Reducer } from 'redux';
 import { NEW_ERROR, CLOSE_MODAL } from '../constants';
+import { errorType, errorForActionType, myAction } from '../../custom_types';
 
-const defaultError = {
+const defaultError: errorType = {
     isModalOpen: false,
     code: null,
     message: null,
 };
 
-const reducer = (error = defaultError, action) => {
+const reducer: Reducer<errorType, myAction<errorForActionType>> = (error = defaultError, action) => {
     switch (action.type) {
         case NEW_ERROR:
             return {
