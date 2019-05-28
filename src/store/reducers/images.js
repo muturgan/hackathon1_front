@@ -1,9 +1,9 @@
-import { PUSH_IMAGES } from '../constants';
+import { IMAGES_FETCH_SUCCESS } from '../constants';
 
 
-export default async(images = [], action) => {
+export default (images = [], action) => {
     switch (action.type) {
-        case PUSH_IMAGES:
+        case IMAGES_FETCH_SUCCESS:
             return action.payload;
 
         default:

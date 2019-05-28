@@ -5,27 +5,19 @@ import Selects from '../my/Selects';
 import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
-import { loadingStart, loadingEnd, setFiltes, userLogout, newError } from '../../store/ac';
+import { loadingEnd, userLogout, newError, fetchImages } from '../../store/ac';
 import { BASE_URL } from '../../store/base_url.js';
 
 
 class GalleryPage extends React.Component {
 
-  constructor() {
-    super();
-
-    this.state = {
-      images: [],
-    };
-  }
-
   componentDidMount() {
-    this.fetchImages(this.props);
+    this.props.dispatch(fetchImages(this.props.filters, this.props.token));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.token !== this.props.token) {
-      this.fetchImages(nextProps);
+      this.props.dispatch(fetchImages(nextProps.filters, nextProps.token));
     }
 
     if (Object.keys(nextProps.filters).every(key => this.props.filters[key] === nextProps.filters[key]) ) {
@@ -38,56 +30,12 @@ class GalleryPage extends React.Component {
       || nextProps.filters.currentPage !== this.props.filters.currentPage
       || nextProps.filters.direction !== this.props.filters.direction
       || nextProps.filters.tag !== this.props.filters.tag
-    ) {this.fetchImages(nextProps)}
+    ) {
+      this.props.dispatch(fetchImages(nextProps.filters, nextProps.token));
+    }
     return true;
   }
 
-  fetchImages = async (props) => {
-    this.props.dispatch(loadingStart());
-    const {sortBy, limit, currentPage, direction, tag} = props.filters;
-
-    const data = await fetch(
-        `${BASE_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
-        {
-          headers: props.token !== null
-            ? {authorization: props.token}
-            : {},
-        }
-      ).then(res => res.json());
-
-    if (data.success === false) {
-      if (data.code === 419) {
-        this.props.dispatch(userLogout());
-      }
-
-      this.props.dispatch(newError({code: data.code, message: data.message}));
-      this.props.dispatch(loadingEnd());
-      return;
-    }
-
-    this.setState({
-      images: data.images.map(image => ({
-        id: image.id,
-        src: image.path,
-        thumbnail: image.path,
-        tags: image.tags,
-        likes: image.likes,
-        likedByYou: image.likedByYou,
-        isSelected: !!image.likes,
-        caption: image.name,
-        thumbnailWidth: 320,
-        thumbnailHeight: 320,
-      })),
-    });
-
-    this.forceUpdate();
-
-    this.props.dispatch(setFiltes({
-      pages: data.pages,
-    }));
-
-    this.props.dispatch(loadingEnd());
-  };
 
 
   onSelectImage = async (index, image) => {
@@ -96,7 +44,7 @@ class GalleryPage extends React.Component {
       return;
     }
 
-    const images = this.state.images.slice();
+    const images = this.props.images;
     const img = images[index];
     const endPoint = img.likedByYou ? 'dislike' : 'like';
 
@@ -124,7 +72,7 @@ class GalleryPage extends React.Component {
     img.isSelected = !!img.likes;
     img.likedByYou = !img.likedByYou;
 
-    this.state.images[index] = img;
+    this.props.images[index] = img;
     this.forceUpdate();
 }
 
@@ -155,7 +103,7 @@ class GalleryPage extends React.Component {
               style={{ width: '100%'}}
             >
                 <Gallery
-                  images={this.state.images}
+                  images={this.props.images}
                   onSelectImage={this.onSelectImage}
                 />
             </MDBCardBody>

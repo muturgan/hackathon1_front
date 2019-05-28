@@ -1,36 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFiltes, newError } from '../../store/ac';
-import { BASE_URL } from '../../store/base_url.js';
+import { setFiltes, fetchTags } from '../../store/ac';
 import './Selects.css';
 
 class Selects extends Component {
 
-	constructor() {
-    super();
-
-    this.state = {
-      tags: [],
-    };
-  }
-
   componentDidMount() {
-    this.fetchTags();
+		this.props.dispatch(fetchTags());
 	}
-	
-	fetchTags = async () => {
-		const data = await fetch(`${BASE_URL}/tags`)
-			.then(res => res.json());
-
-		if (data.success === false) {
-      this.props.dispatch(newError({code: 'Ошибка загрузки списка тегов', message: data.message}));
-      return;
-		}
-		
-		this.setState({
-      tags: data.tags,
-    });
-	};
 
 	onChangeHandler = (ev) => {
     this.props.dispatch(setFiltes({
@@ -96,7 +73,7 @@ class Selects extends Component {
 							>
 								<option value="all">Все</option>
 								{
-									this.state.tags
+									this.props.tags
 										.map(tag => <option key={tag} value={tag}>{tag}</option>)
 								}
 						</select>
@@ -111,6 +88,7 @@ class Selects extends Component {
 export default connect(
   store => ({
     isLoading: store.loading,
-    limit: store.filters.limit,
+		limit: store.filters.limit,
+		tags: store.tags,
   }),
 )(Selects);

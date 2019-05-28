@@ -3,3 +3,4 @@ export * from './loading.js';
 export * from './filters.js';
 export * from './images.js';
 export * from './error.js';
+export * from './fetchTags.js';

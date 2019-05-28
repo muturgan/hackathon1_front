@@ -11,7 +11,9 @@ export const LOADING_END = 'LOADING_END';
 
 export const SET_FILTERS = 'SET_FILTERS';
 
-export const PUSH_IMAGES = 'PUSH_IMAGES';
+export const IMAGES_FETCH_SUCCESS = 'IMAGES_FETCH_SUCCESS';
 
 export const NEW_ERROR = 'NEW_ERROR';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
+
+export const TAGS_FETCH_SUCCESS = 'TAGS_FETCH_SUCCESS';
