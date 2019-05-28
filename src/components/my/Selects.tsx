@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { setFiltes, fetchTags } from '../../store/actions';
+import { storeType } from '../../store/store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import './Selects.css';
 
-class Selects extends Component {
+type SelectsProps = {
+	tags: Array<string>;
+	isLoading: boolean;
+	limit: number;
+	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+}
+
+class Selects extends Component<SelectsProps, {}> {
 
   componentDidMount() {
 		if (this.props.tags.length === 0) {
@@ -11,7 +21,7 @@ class Selects extends Component {
 		}
 	}
 
-	onChangeHandler = (ev) => {
+	onChangeHandler = (ev: ChangeEvent<HTMLSelectElement>) => {
     this.props.dispatch(setFiltes({
       [ev.target.name]: ev.target.value,
     }));
@@ -54,7 +64,7 @@ class Selects extends Component {
 						<select
 							className="browser-default custom-select"
 							onChange={this.onChangeHandler}
-							defaultValue={this.props.limit}
+							defaultValue={String(this.props.limit)}
 							name="limit"
 							disabled={this.props.isLoading === true}
 							>
@@ -88,7 +98,7 @@ class Selects extends Component {
 
 
 export default connect(
-  store => ({
+  (store: storeType) => ({
     isLoading: store.loading,
 		limit: store.filters.limit,
 		tags: store.tags,

@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
-import Lightbox from 'react-images';
 import { Image } from './Image';
+import Lightbox from 'react-images';
 
-export class Gallery extends Component {
-    constructor (props) {
+type GalleryProps = {
+    [key: string]: any;
+};
+
+type GalleryState = {
+    images: any,
+    thumbnails: Array<any>,
+    lightboxIsOpen: boolean,
+    currentImage: any,
+    containerWidth: number,
+};
+
+
+
+export class Gallery extends Component<GalleryProps, GalleryState> {
+    constructor (props: GalleryProps) {
         super(props);
 
         this.state = {
@@ -24,11 +38,33 @@ export class Gallery extends Component {
         this.onSelectImage = this.onSelectImage.bind(this);
     }
 
+    static displayName: string;
+
+    static defaultProps: {
+        id: string,
+        enableImageSelection: boolean,
+        rowHeight: number,
+        margin: number,
+        enableLightbox: boolean,
+        backdropClosesModal: boolean,
+        currentImage: number,
+        preloadNextImage: boolean,
+        enableKeyboardInput: boolean,
+        imageCountSeparator: string,
+        isOpen: boolean,
+        showCloseButton: boolean,
+        showImageCount: boolean,
+        lightboxWidth: number,
+        showLightboxThumbnails: boolean,
+    };
+
+    _gallery: any;
+
     componentDidMount () {
         this.onResize();
     }
 
-    componentWillReceiveProps (np) {
+    componentWillReceiveProps (np: any) {
         if (this.state.currentImage > np.images.length - 1) {
             this.setState({currentImage: np.images.length - 1});
         }
@@ -57,7 +93,7 @@ export class Gallery extends Component {
         });
     }
 
-    openLightbox (index, event) {
+    openLightbox (index: any, event: any) {
         if (event) {
             event.preventDefault();
         }
@@ -112,13 +148,13 @@ export class Gallery extends Component {
         this.gotoNext();
     }
 
-    onSelectImage (index, event) {
+    onSelectImage (index: any, event: any) {
         event.preventDefault();
         if(this.props.onSelectImage)
             this.props.onSelectImage.call(this, index, this.state.images[index]);
     }
 
-    gotoImage (index) {
+    gotoImage (index: any) {
         if (this.props.currentImageWillChange) {
             this.props.currentImageWillChange.call(this, index);
         }
@@ -163,8 +199,8 @@ export class Gallery extends Component {
         return this.gotoNext;
     }
 
-    calculateCutOff (len, delta, items) {
-        var cutoff = [];
+    calculateCutOff (len: number, delta: number, items: any) {
+        var cutoff: any = [];
         var cutsum = 0;
         for(var i in items) {
             var item = items[i];
@@ -184,7 +220,7 @@ export class Gallery extends Component {
         return cutoff;
     }
 
-    buildImageRow (items, containerWidth) {
+    buildImageRow (items: any, containerWidth: any) {
         var row = [];
         var len = 0;
         var imgMargin = 2 * this.props.margin;
@@ -214,13 +250,13 @@ export class Gallery extends Component {
         return row;
     }
 
-    setThumbScale (item) {
+    setThumbScale (item: any) {
         item.scaletwidth =
             Math.floor(this.props.rowHeight
                        * (item.thumbnailWidth / item.thumbnailHeight));
     }
 
-    renderThumbs (containerWidth, images = this.state.images) {
+    renderThumbs (containerWidth: any, images = this.state.images) {
         if (!images) return [];
         if (containerWidth === 0) return [];
 
@@ -273,7 +309,7 @@ export class Gallery extends Component {
             padding: 0,
             overflow: "hidden",
             borderWidth: 0,
-            position: "fixed",
+            position: "fixed" as "fixed",
             backgroundColor: "transparent",
             width: "100%"
         };
@@ -285,11 +321,12 @@ export class Gallery extends Component {
             ref={(c) => c && c.contentWindow
                  && c.contentWindow.addEventListener('resize', this.onResize) } />
                 {images}
+                // @ts-ignore
                 <Lightbox
             images={this.props.images}
             backdropClosesModal={this.props.backdropClosesModal}
             currentImage={this.state.currentImage}
-	    preloadNextImage={this.props.preloadNextImage}
+	        preloadNextImage={this.props.preloadNextImage}
             customControls={this.props.customControls}
             enableKeyboardInput={this.props.enableKeyboardInput}
             imageCountSeparator={this.props.imageCountSeparator}

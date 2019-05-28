@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
 import { CheckButton } from './CheckButton';
+import { tagType } from '../../custom_types';
 
-export class Image extends Component {
-    constructor (props) {
+type ImageProps = {
+    [key: string]: any;
+};
+
+type ImageState = {hover: boolean};
+
+
+
+export class Image extends Component<ImageProps, ImageState> {
+    constructor (props: ImageProps) {
         super(props);
 
         this.state = {
             hover: false
         };
     }
+
+    static defaultProps: {
+        isSelectable: boolean;
+        hover: boolean;
+    };
 
     tagStyle () {
         if (this.props.tagStyle)
@@ -138,7 +152,7 @@ export class Image extends Component {
     render () {
         var alt = this.props.item.alt ? this.props.item.alt : "";
         var tags = (typeof this.props.item.tags === 'undefined') ? <noscript/> :
-                this.props.item.tags.map((tag) => {
+                this.props.item.tags.map((tag: tagType) => {
                     return <div title={tag.title}
                     key={"tag-"+tag.value}
                     style={{display: "inline-block",
@@ -230,8 +244,10 @@ export class Image extends Component {
                 <div className="ReactGridGallery_tile-viewport"
             style={this.tileViewportStyle()}
             key={"tile-viewport-"+this.props.index}
-            onClick={this.props.onClick ?
-                     (e) => this.props.onClick.call(this, this.props.index, e) : null}>
+            onClick={(this.props.onClick
+                ? (event) => (this.props as any).onClick.call(this, this.props.index, event)
+                : null as any)}
+                >
                 {ThumbnailImageComponent ?
                     <ThumbnailImageComponent {...this.props} imageProps={thumbnailProps} /> :
                     <img {...thumbnailProps} />}

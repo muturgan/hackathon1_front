@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBFooter, MDBBtn, MDBIcon } from 'mdbreact';
+const { MDBFooter } = require('mdbreact');
 
 const Footer = () => {
     return (

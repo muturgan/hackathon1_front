@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { closeModal } from '../../store/actions';
-import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader} from 'mdbreact';
+import { storeType } from '../../store/store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+const { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader} = require('mdbreact');
 
-class Modal extends Component {
+type ModalProps = {
+  isModalOpen: boolean;
+  code: string|number|null;
+  message: string|null;
+	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+}
+
+
+class Modal extends Component<ModalProps, {}> {
 
   close = () => this.props.dispatch(closeModal());
 
@@ -21,9 +32,8 @@ class Modal extends Component {
   }
 }
 
-
 export default connect(
-  store => ({
+  (store: storeType) => ({
     isModalOpen: store.error.isModalOpen,
     code: store.error.code,
     message: store.error.message,

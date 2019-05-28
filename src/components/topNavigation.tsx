@@ -1,16 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userLogin, userLogout, newError } from '../store/actions';
-import { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } from 'mdbreact';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
 import { BASE_URL } from '../store/base_url';
+import { storeType } from '../store/store';
+import { userType } from '../custom_types';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+const { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } = require('mdbreact');
 
-class TopNavigation extends Component {
-    that = this;
-    state = {
-        collapse: false,
+type TopNavigationProps = {
+    user: userType;
+    dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+};
+
+type TopNavigationState = {
+    dropdownOpen: boolean;
+    collapse: boolean;
+}
+
+
+class TopNavigation extends Component<TopNavigationProps, TopNavigationState> {
+
+    constructor (props: TopNavigationProps) {
+        super(props);
+
+        this.state = {
+            collapse: false,
+            dropdownOpen: false,
+        };
     }
+
+
 
     onClick = () => {
         this.setState({
@@ -24,7 +46,7 @@ class TopNavigation extends Component {
         });
     }
 
-    login = async (yatoken) => {
+    login = async (yatoken: string) => {
         const data = await fetch(
             `${BASE_URL}/login`,
             {
@@ -42,8 +64,10 @@ class TopNavigation extends Component {
         }
     }
 
-    authListener = async (ev) => {
-        ev.source.close();
+    authListener = async (ev: MessageEvent) => {
+        if (ev.source && 'close' in ev.source) {
+            ev.source.close();
+        }
 
         if (ev.origin !== 'https://tula-hackathon-2019-sakharov.cf') {
             return;
@@ -101,7 +125,6 @@ class TopNavigation extends Component {
                         <MDBNavItem className="ml-1 mt-2">
                             <span
                                 className="border border-light rounded mr-1 nav-link Ripple-parent"
-                                rel="noopener noreferrer"
                                 style={{userSelect: 'none'}}
                                 >
                                     {this.props.user.name}
@@ -124,5 +147,5 @@ class TopNavigation extends Component {
 
 
 export default connect(
-    store => ({user: store.user}),
+    (store: storeType) => ({user: store.user}),
 )(TopNavigation);

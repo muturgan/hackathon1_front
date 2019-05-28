@@ -1,11 +1,23 @@
 import React from "react";
-import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact";
 import { connect } from 'react-redux';
 import { setFiltes } from '../../store/actions';
+import { storeType } from '../../store/store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+const { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } = require('mdbreact');
 
-class Pagination extends React.Component {
+type PaginationProps = {
+  currentPage: number;
+  pagesCount: number;
+  isLoading: boolean;
+	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+};
 
-  onClick = (number) => () => {
+
+
+class Pagination extends React.Component<PaginationProps, {}> {
+
+  onClick = (number: number) => () => {
     this.props.dispatch(setFiltes({
       currentPage: number,
     }));
@@ -65,7 +77,7 @@ class Pagination extends React.Component {
 
 
 export default connect(
-  store => ({
+  (store: storeType) => ({
     currentPage: store.filters.currentPage,
     pagesCount: store.filters.pages,
     isLoading: store.loading,

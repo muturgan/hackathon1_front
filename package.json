@@ -2,7 +2,7 @@
     "name": "hackathon1_front",
     "version": "0.1.0",
     "description": "frontnd for the first stage of the tula_hackathon_2019",
-    "main": "src/index.jsx",
+    "main": "src/index.tsx",
     "scripts": {
         "start": "react-scripts start",
         "dev": "react-scripts start",
@@ -34,6 +34,7 @@
         "@types/node": "^12.0.2",
         "@types/react": "^16.8.18",
         "@types/react-dom": "^16.8.4",
+        "@types/react-images": "^0.5.1",
         "@types/react-redux": "^7.0.9",
         "@types/react-router-dom": "^4.3.3",
         "mdbreact": "^4.15.0",

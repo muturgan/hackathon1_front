@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 
-export class CheckButton extends Component {
-    constructor (props) {
+type CheckButtonProps = {
+    [key: string]: any;
+};
+
+type CheckButtonState = {
+    hover: boolean;
+};
+
+export class CheckButton extends Component<CheckButtonProps, CheckButtonState> {
+    constructor (props: CheckButtonProps) {
         super(props);
 
         this.state = {
@@ -10,6 +18,13 @@ export class CheckButton extends Component {
 
         this.fill = this.fill.bind(this);
         this.visibility = this.visibility.bind(this);
+    }
+
+    static defaultProps: {
+        isSelectable: boolean,
+        isSelected: boolean,
+        parentHover: boolean,
+        hover: boolean,
     }
 
     fill () {
@@ -43,8 +58,8 @@ export class CheckButton extends Component {
                 cursor: 'pointer',
                 pointerEvents: 'visible'
             }}
-            onClick={this.props.onClick ?
-                     (e) => this.props.onClick(this.props.index, e) : null
+            onClick={(this.props.onClick ?
+                     (e: Event) => this.props.onClick(this.props.index, e) : null) as any
             }
             onMouseOver={(e) => this.setState({hover: true})}
             onMouseOut={(e) => this.setState({hover: false})}>

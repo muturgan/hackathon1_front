@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from "../assets/logo404.jpg";
-import { MDBListGroup, MDBListGroupItem, MDBIcon } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
+const { MDBListGroup, MDBListGroupItem, MDBIcon } = require('mdbreact');
 
 const TopNavigation = () => {
     return (

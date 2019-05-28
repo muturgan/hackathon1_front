@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBCol, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
+const { MDBCol, MDBRow, MDBCard, MDBCardBody } = require('mdbreact');
 
 
 

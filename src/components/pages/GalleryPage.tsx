@@ -1,14 +1,26 @@
 import React from 'react'
-import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardHeader } from 'mdbreact';
 import { Gallery } from '../rgg/Gallery';
 import Selects from '../my/Selects';
 import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
 import { fetchImages, voteForImage } from '../../store/actions';
+import { storeType } from '../../store/store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { imageType, filtersType } from '../../custom_types';
+const { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardHeader } = require('mdbreact');
+
+type GalleryPageProps = {
+  token: string|null;
+  isLoading: boolean;
+  filters: filtersType;
+  images: Array<imageType>;
+	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+}
 
 
-class GalleryPage extends React.Component {
+class GalleryPage extends React.Component<GalleryPageProps, {}> {
 
   componentDidMount() {
     if (this.props.images.length === 0) {
@@ -16,7 +28,7 @@ class GalleryPage extends React.Component {
     }
   }
 
-  onSelectImage = (index, image) => {
+  onSelectImage = (index: number, image: HTMLElement) => {
     this.props.dispatch(voteForImage(index));
   }
 
@@ -61,7 +73,7 @@ class GalleryPage extends React.Component {
 
 
 export default connect(
-  store => ({
+  (store: storeType) => ({
     token: store.user.token,
     isLoading: store.loading,
     filters: store.filters,
