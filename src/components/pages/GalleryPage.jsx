@@ -12,7 +12,9 @@ import { BASE_URL } from '../../store/base_url.js';
 class GalleryPage extends React.Component {
 
   componentDidMount() {
-    this.props.dispatch(fetchImages());
+    if (this.props.images.length === 0) {
+      this.props.dispatch(fetchImages());
+    }
   }
 
   onSelectImage = (index, image) => {

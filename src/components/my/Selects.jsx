@@ -6,7 +6,9 @@ import './Selects.css';
 class Selects extends Component {
 
   componentDidMount() {
-		this.props.dispatch(fetchTags());
+		if (this.props.tags.length === 0) {
+			this.props.dispatch(fetchTags());
+		}
 	}
 
 	onChangeHandler = (ev) => {
