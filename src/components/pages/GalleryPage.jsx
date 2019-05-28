@@ -5,7 +5,7 @@ import Selects from '../my/Selects';
 import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
-import { loadingEnd, userLogout, newError, fetchImages } from '../../store/actions';
+import { loadingEnd, userLogout, newError, fetchImages, voteForImage } from '../../store/actions';
 import { BASE_URL } from '../../store/base_url.js';
 
 
@@ -15,43 +15,9 @@ class GalleryPage extends React.Component {
     this.props.dispatch(fetchImages());
   }
 
-  onSelectImage = async (index, image) => {
-    if (this.props.token === null) {
-      this.props.dispatch(newError({code: 'Авторизуйтесь пожалуйста', message: 'Только авторизованые пользователи могут оценивать изображения'}));
-      return;
-    }
-
-    const images = this.props.images;
-    const img = images[index];
-    const endPoint = img.likedByYou ? 'dislike' : 'like';
-
-    const data = await fetch(
-      `${BASE_URL}/images/${img.id}/${endPoint}`,
-      {
-        method: 'PATCH',
-        headers: {authorization: this.props.token},
-      }
-    ).then(res => res.json());
-
-    if (data.success === false) {
-      if (data.code === 419) {
-        this.props.dispatch(userLogout());
-      }
-
-      this.props.dispatch(newError({code: data.code, message: data.message}));
-      this.props.dispatch(loadingEnd());
-      return;
-    }
-  
-    img.likes = endPoint === 'like'
-      ? img.likes + 1
-      : img.likes - 1;
-    img.isSelected = !!img.likes;
-    img.likedByYou = !img.likedByYou;
-
-    this.props.images[index] = img;
-    this.forceUpdate();
-}
+  onSelectImage = (index, image) => {
+    this.props.dispatch(voteForImage(index));
+  }
 
 
   render() {
