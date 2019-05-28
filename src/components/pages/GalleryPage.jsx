@@ -12,31 +12,8 @@ import { BASE_URL } from '../../store/base_url.js';
 class GalleryPage extends React.Component {
 
   componentDidMount() {
-    this.props.dispatch(fetchImages(this.props.filters, this.props.token));
+    this.props.dispatch(fetchImages());
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.token !== this.props.token) {
-      this.props.dispatch(fetchImages(nextProps.filters, nextProps.token));
-    }
-
-    if (Object.keys(nextProps.filters).every(key => this.props.filters[key] === nextProps.filters[key]) ) {
-      return false;
-    }
-
-    if (
-      nextProps.filters.sortBy !== this.props.filters.sortBy
-      || nextProps.filters.limit !== this.props.filters.limit
-      || nextProps.filters.currentPage !== this.props.filters.currentPage
-      || nextProps.filters.direction !== this.props.filters.direction
-      || nextProps.filters.tag !== this.props.filters.tag
-    ) {
-      this.props.dispatch(fetchImages(nextProps.filters, nextProps.token));
-    }
-    return true;
-  }
-
-
 
   onSelectImage = async (index, image) => {
     if (this.props.token === null) {

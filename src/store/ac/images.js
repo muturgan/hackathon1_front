@@ -9,17 +9,18 @@ export function imagesFetchSuccess(images) {
     };
 }
 
-export function fetchImages(filters, token) {
-    return (dispatch) => {
+export function fetchImages() {
+    return (dispatch, getState) => {
         dispatch(loadingStart());
 
+        const {filters, user} = getState();
         const {sortBy, limit, currentPage, direction, tag} = filters;
 
         fetch(
             `${BASE_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
             {
-            headers: token !== null
-                ? {authorization: token}
+            headers: user.token !== null
+                ? {authorization: user.token}
                 : {},
             }
         ).then(res => res.json())
@@ -48,11 +49,12 @@ export function fetchImages(filters, token) {
             }));
     
             dispatch(imagesFetchSuccess(newData));
-    
-    
-            dispatch(setFiltes({
-                pages: data.pages,
-            }));
+
+            if (filters.pages !== data.pages) {
+                dispatch(setFiltes({
+                    pages: data.pages,
+                }));
+            }
     
             dispatch(loadingEnd());
         })

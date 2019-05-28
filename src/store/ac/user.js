@@ -1,6 +1,7 @@
 import { USER_UPDATE_DATA, USER_LOGOUT } from '../constants';
+import { fetchImages } from './index';
 
-export function userLogin(data) {
+export function userLoginAction(data) {
     return {
         type: USER_UPDATE_DATA,
         payload: {
@@ -13,6 +14,20 @@ export function userLogin(data) {
     };
 };
 
-export function userLogout() {
+export function userLogoutAction() {
     return { type: USER_LOGOUT };
+};
+
+export function userLogin(data) {
+    return (dispatch, getState) => {
+        dispatch(userLoginAction(data));
+        dispatch(fetchImages());
+    };
+};
+
+export function userLogout() {
+    return (dispatch, getState) => {
+        dispatch(userLogoutAction());
+        dispatch(fetchImages());
+    };
 };
