@@ -15,7 +15,7 @@ export function fetchTags() {
             .then(res => res.json())
             .then(data => {
 
-                if (data.succsess !== true) {
+                if (data.success !== true) {
                     throw Error(data.message);
                 }
 

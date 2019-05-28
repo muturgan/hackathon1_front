@@ -24,7 +24,7 @@ export function fetchImages(filters, token) {
             }
         ).then(res => res.json())
         .then(data => {
-            if (data.succsess !== true) {
+            if (data.success !== true) {
                 if (data.code === 419) {
                     dispatch(userLogout());
                 }
