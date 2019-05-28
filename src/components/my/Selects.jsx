@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFiltes, fetchTags } from '../../store/ac';
+import { setFiltes, fetchTags } from '../../store/actions';
 import './Selects.css';
 
 class Selects extends Component {

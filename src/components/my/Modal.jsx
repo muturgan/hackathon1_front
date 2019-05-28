@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { closeModal } from '../../store/ac';
+import { closeModal } from '../../store/actions';
 import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader} from 'mdbreact';
 
 class Modal extends Component {

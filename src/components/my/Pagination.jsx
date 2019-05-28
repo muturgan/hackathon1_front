@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow } from "mdbreact";
 import { connect } from 'react-redux';
-import { setFiltes } from '../../store/ac';
+import { setFiltes } from '../../store/actions';
 
 class Pagination extends React.Component {
 

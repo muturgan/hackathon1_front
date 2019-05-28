@@ -5,7 +5,7 @@ import Selects from '../my/Selects';
 import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
-import { loadingEnd, userLogout, newError, fetchImages } from '../../store/ac';
+import { loadingEnd, userLogout, newError, fetchImages } from '../../store/actions';
 import { BASE_URL } from '../../store/base_url.js';
 
 
