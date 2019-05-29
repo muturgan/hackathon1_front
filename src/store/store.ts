@@ -13,5 +13,5 @@ const configureStore = (initialState?: any) => {
 
 export const store = configureStore();
 
-const storeState = store.getState();
-export type storeState = typeof storeState;
+const ss = store.getState();
+export type storeState = typeof ss;
