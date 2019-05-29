@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { setFiltes, fetchTags } from '../../store/actions';
-import { storeType } from '../../store/store';
+import { storeState } from '../../store/store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import './Selects.css';
@@ -10,7 +10,7 @@ type SelectsProps = {
 	tags: Array<string>;
 	isLoading: boolean;
 	limit: number;
-	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+	dispatch: ThunkDispatch<storeState, {}, AnyAction>;
 }
 
 class Selects extends Component<SelectsProps, {}> {
@@ -98,7 +98,7 @@ class Selects extends Component<SelectsProps, {}> {
 
 
 export default connect(
-  (store: storeType) => ({
+  (store: storeState) => ({
     isLoading: store.loading,
 		limit: store.filters.limit,
 		tags: store.tags,

@@ -4,7 +4,7 @@ import { userLogin, userLogout, newError } from '../store/actions';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
 import { BASE_URL } from '../store/base_url';
-import { storeType } from '../store/store';
+import { storeState } from '../store/store';
 import { userType } from '../custom_types';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -12,7 +12,7 @@ const { MDBNavbar, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem } = r
 
 type TopNavigationProps = {
     user: userType;
-    dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+    dispatch: ThunkDispatch<storeState, {}, AnyAction>;
 };
 
 type TopNavigationState = {
@@ -147,5 +147,5 @@ class TopNavigation extends Component<TopNavigationProps, TopNavigationState> {
 
 
 export default connect(
-    (store: storeType) => ({user: store.user}),
+    (store: storeState) => ({user: store.user}),
 )(TopNavigation);

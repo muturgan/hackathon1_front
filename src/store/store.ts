@@ -14,12 +14,5 @@ const configureStore = (initialState?: any) => {
 
 export const store = configureStore();
 
-
-export type storeType = {
-    user: userType;
-    loading: boolean;
-    filters: filtersType;
-    images: Array<imageType>;
-    error: errorType;
-    tags: Array<string>;
-};
+const storeState = store.getState();
+export type storeState = typeof storeState;

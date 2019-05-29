@@ -5,7 +5,7 @@ import Modal from '../my/Modal';
 import Pagination from '../my/Pagination';
 import { connect } from 'react-redux';
 import { fetchImages, voteForImage } from '../../store/actions';
-import { storeType } from '../../store/store';
+import { storeState } from '../../store/store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { imageType, filtersType } from '../../custom_types';
@@ -16,7 +16,7 @@ type GalleryPageProps = {
   isLoading: boolean;
   filters: filtersType;
   images: Array<imageType>;
-	dispatch: ThunkDispatch<storeType, {}, AnyAction>;
+	dispatch: ThunkDispatch<storeState, {}, AnyAction>;
 }
 
 
@@ -73,7 +73,7 @@ class GalleryPage extends React.Component<GalleryPageProps, {}> {
 
 
 export default connect(
-  (store: storeType) => ({
+  (store: storeState) => ({
     token: store.user.token,
     isLoading: store.loading,
     filters: store.filters,

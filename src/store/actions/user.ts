@@ -1,7 +1,7 @@
 import { USER_UPDATE_DATA, USER_LOGOUT } from '../constants';
 import { fetchImages } from './index';
 import { userType, userLoginDataType } from '../../custom_types';
-import { storeType } from '../store';
+import { storeState } from '../store';
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
 
@@ -26,14 +26,14 @@ export function userLogoutAction() {
 
 
 
-export function userLogin(data: userLoginDataType): ThunkAction<void, storeType, {}, AnyAction> {
+export function userLogin(data: userLoginDataType): ThunkAction<void, storeState, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(userLoginAction(data));
         dispatch(fetchImages());
     };
 };
 
-export function userLogout(): ThunkAction<void, storeType, {}, AnyAction> {
+export function userLogout(): ThunkAction<void, storeState, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(userLogoutAction());
         dispatch(fetchImages());

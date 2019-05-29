@@ -2,12 +2,12 @@ import { IMAGES_FETCH_SUCCESS } from '../constants';
 import { loadingStart, loadingEnd, newError, userLogout, setFiltes } from './index';
 import { BASE_URL } from '../base_url';
 import { imageType, fetchedImagesType } from '../../custom_types';
-import { storeType } from '../store';
+import { storeState } from '../store';
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
 
 
-export function voteForImage(index: number): ThunkAction<void, storeType, {}, AnyAction> {
+export function voteForImage(index: number): ThunkAction<void, storeState, {}, AnyAction> {
     return async (dispatch, getState) => {
         try {
             const {images, user} = getState();
@@ -65,7 +65,7 @@ export function imagesFetchSuccess(images: Array<imageType>) {
 
 
 
-export function fetchImages(): ThunkAction<void, storeType, {}, AnyAction> {
+export function fetchImages(): ThunkAction<void, storeState, {}, AnyAction> {
     return (dispatch, getState) => {
         dispatch(loadingStart());
 
