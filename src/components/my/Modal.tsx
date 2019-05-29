@@ -10,7 +10,7 @@ type ModalProps = {
   isModalOpen: boolean;
   code: string|number|null;
   message: string|null;
-	dispatch: ThunkDispatch<storeState, {}, AnyAction>;
+  dispatch: ThunkDispatch<storeState, {}, AnyAction>;
 }
 
 
