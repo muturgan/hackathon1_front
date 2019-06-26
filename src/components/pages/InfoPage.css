@@ -1,0 +1,13 @@
+.task {
+    color: #212529;
+    width: 100%;
+    min-height: calc(100vh - 139px - 6rem);
+}
+
+.task a {
+    color: darkblue;
+}
+
+.notready {
+    color: gray;
+}
