@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://tula-hackathon-2019-sakharov.cf/api/v1';
+export const BASE_URL = 'https://amazing-gallery.cf/api/v1';
