@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from './Image';
 import Lightbox from 'react-images';
+const AnyLightbox: any = Lightbox;
 
 type GalleryProps = {
     [key: string]: any;
@@ -321,8 +322,8 @@ export class Gallery extends Component<GalleryProps, GalleryState> {
             ref={(c) => c && c.contentWindow
                  && c.contentWindow.addEventListener('resize', this.onResize) } />
                 {images}
-                // @ts-ignore
-                <Lightbox
+                
+                <AnyLightbox
             images={this.props.images}
             backdropClosesModal={this.props.backdropClosesModal}
             currentImage={this.state.currentImage}
