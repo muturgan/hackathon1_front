@@ -45,7 +45,7 @@ class GalleryPage extends React.Component<GalleryPageProps, {}> {
             <MDBCardHeader>Контролы</MDBCardHeader>
             <MDBCardBody
               className = "text-center"
-              style={{ width: '100%'}}
+              style={{ width: '100%' }}
             >
               <Selects/>
               <Pagination/>
@@ -56,7 +56,7 @@ class GalleryPage extends React.Component<GalleryPageProps, {}> {
             <MDBCardHeader>Галерея</MDBCardHeader>
             <MDBCardBody
               className = "text-center"
-              style={{ width: '100%'}}
+              style={{ width: '100%', minHeight: `calc(${document.documentElement.clientHeight}px - 391px - 7rem)` }}
             >
                 <Gallery
                   images={this.props.images}
