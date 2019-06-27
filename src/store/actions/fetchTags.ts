@@ -1,6 +1,6 @@
 import { newError } from './error';
 import { TAGS_FETCH_SUCCESS } from '../constants';
-import { BASE_URL } from '../base_url';
+import { BASE_API_URL } from '../base_url';
 import { Dispatch } from 'redux';
 import { fetchedTagsType } from '../../custom_types';
 
@@ -14,7 +14,7 @@ export function tagsFetchSuccess(tags: Array<string>) {
 
 export function fetchTags() {
     return (dispatch: Dispatch) => {
-        fetch(`${BASE_URL}/tags`)
+        fetch(`${BASE_API_URL}/tags`)
             .then(res => res.json())
             .then((data: fetchedTagsType) => {
 

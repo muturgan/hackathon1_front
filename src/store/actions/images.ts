@@ -1,6 +1,6 @@
 import { IMAGES_FETCH_SUCCESS } from '../constants';
 import { loadingStart, loadingEnd, newError, userLogout, setFiltes } from './index';
-import { BASE_URL } from '../base_url';
+import { BASE_API_URL } from '../base_url';
 import { imageType, fetchedImagesType } from '../../custom_types';
 import { storeState } from '../store';
 import { ThunkAction } from 'redux-thunk';
@@ -25,7 +25,7 @@ export function voteForImage(index: number): ThunkAction<void, storeState, {}, A
             const endPoint = img.likedByYou ? 'dislike' : 'like';
         
             const data = await fetch(
-                `${BASE_URL}/images/${img.id}/${endPoint}`,
+                `${BASE_API_URL}/images/${img.id}/${endPoint}`,
                 {
                     method: 'PATCH',
                     headers: {authorization: user.token},
@@ -73,7 +73,7 @@ export function fetchImages(): ThunkAction<void, storeState, {}, AnyAction> {
         const {sortBy, limit, currentPage, direction, tag} = filters;
 
         fetch(
-            `${BASE_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
+            `${BASE_API_URL}/images?sortBy=${sortBy}&limit=${limit}&page=${currentPage}&direction=${direction}&tag=${tag}`,
             {
             headers: user.token !== null
                 ? {authorization: user.token}

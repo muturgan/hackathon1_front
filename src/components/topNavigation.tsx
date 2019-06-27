@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { userLogin, userLogout, newError } from '../store/actions';
 import ava_male from '../assets/default_user_male.png';
 import ava_female from '../assets/default_user_female.webp';
-import { BASE_URL } from '../store/base_url';
+import { BASE_API_URL, BASE_URL } from '../store/base_url';
 import { storeState } from '../store/store';
 import { userType } from '../custom_types';
 import { ThunkDispatch } from 'redux-thunk';
@@ -48,7 +48,7 @@ class TopNavigation extends Component<TopNavigationProps, TopNavigationState> {
 
     login = async (yatoken: string) => {
         const data = await fetch(
-            `${BASE_URL}/login`,
+            `${BASE_API_URL}/login`,
             {
                 method: 'POST',
                 headers: {['Content-Type']: 'application/json'},
@@ -69,7 +69,7 @@ class TopNavigation extends Component<TopNavigationProps, TopNavigationState> {
             ev.source.close();
         }
 
-        if (ev.origin !== 'https://tula-hackathon-2019-sakharov.cf') {
+        if (ev.origin !== BASE_URL) {
             return;
         }
 
